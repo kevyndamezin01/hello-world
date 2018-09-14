@@ -31,7 +31,7 @@ print(a)
 a = math.sin(math.pi / 2)
 print(a)
 
-# This is how you work out the cos function
+# This is how you work out the cos of a function
 a = math.cos(0)
 print(a)
 
