@@ -40,3 +40,5 @@ print(word[word.index("cali"):word.index("fragi")])
 # By adding the : at the end this will print all the index from the start that,
 # You have called until the end
 print(word[word.index("docious"):])
+
+print(word[0:word.index("docious")])
