@@ -47,3 +47,6 @@ print(y.rstrip("0"))
 
 # This function will strip away part of the variable to the right
 print(y.lstrip("0"))
+
+# This will remove any wide space or extra spaces that the user has not meant to type
+print(y.strip())
