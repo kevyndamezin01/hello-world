@@ -8,7 +8,7 @@ while True:
     if name in known_users:
         print("Name recognised")
         print("Hello {}!".format(name))
-        remove = input("Woul you like to be removed from the system [y/n]?: ").strip().lower()
+        remove = input("Would you like to be removed from the system [y/n]?: ").strip().lower()
         if remove == "y":
             known_users.remove(name)
         elif remove == "n":
