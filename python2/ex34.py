@@ -68,4 +68,4 @@ if not state:
 
 # get a city with a default value
 city = cities.get('TX', 'Does not Exist')
-print "The city for te state 'TX' is: %s" % city
+print "The city for the state 'TX' is: %s" % city
