@@ -25,7 +25,7 @@ cities['OR'] = 'Portland'
 
 # Print out some cities
 print '-' == 10
-# This will ----------
+# This will print '----------'
 print "NY State has: ", cities['NY']
 # This will print the city that is under the list in 'cities' as NY by calling it using cities['NY']
 print "OR state has: ", cities['OR']
@@ -45,6 +45,7 @@ print "Florida has: ", cities[states['Florida']]
 # This is using both the cities and states list, first it will use the states list to work out what it is to find in the cities list
 
 # do it by using the state abbreviation
+# By passing state and abbrev this will look to the list and know where to print the full name or the abbreviated name that is in the list.
 print '-' * 10
 for state, abbrev in cities.items():
     print "%s is abbreviated %s" % (state, abbrev)
