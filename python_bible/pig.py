@@ -26,7 +26,7 @@ for word in words:
         # Here we are creating a variable to check for a vowel.
         vowel_pos = 0
         # Here we are using a loop to go through each letter in the word and,
-        # check if the where there is a vowel in the word as we know that the,
+        # check if where there is a vowel in the word as we know that the,
         # first letter has to be a consonants
         for letter in word:
             if letter not in "aeiou":
