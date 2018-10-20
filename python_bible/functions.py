@@ -14,6 +14,7 @@ print(addition(10,5))
 # this will not allow you to do this.
 
 word = "pen"
+# This will print the word backwards
 print(word[::-1])
 
 def rev(text):
@@ -46,3 +47,60 @@ def about(name = "Kevyn", age = 21, likes = "Python", haircolor = "Brown"):
 	return sentence
 
 print(about())
+
+#########################################################################
+
+print(1,2,3,4,5)
+
+numbers = [1,2,3,4,5]
+print(numbers)
+
+# By adding in the * this unpacks the list, This will make each item in the,
+# list its own argument 
+print(*numbers)
+
+def add(x,y):
+	return(x + y)
+
+print(add(10,20))
+
+
+def add(*numbers):
+	total = 0
+	for number in numbers:
+		total = total + numbers
+	return(total)
+
+add(1,2,3,4,5,6,7,8,9)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
