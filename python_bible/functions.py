@@ -6,7 +6,7 @@ def addition(a,b):
 
 
 # Here we need to call the function and add in the paramaters,
-# We wish to use. 
+# We wish to use.
 print(addition(10,5))
 
 # By using return instead of print this will allow the user to store,
@@ -31,7 +31,7 @@ print(backwards())
 
 # By passing arguments inside the () this makes them requirement argruments,
 # This means that they must be passed in order for the function,
-# to be run. 
+# to be run.
 
 def about(name, age, likes):
 	sentence = "Meet {} they are {} years old and they like {}".format(name, age, likes)
@@ -56,7 +56,7 @@ numbers = [1,2,3,4,5]
 print(numbers)
 
 # By adding in the * this unpacks the list, This will make each item in the,
-# list its own argument 
+# list its own argument
 print(*numbers)
 
 def add(x,y):
@@ -68,39 +68,7 @@ print(add(10,20))
 def add(*numbers):
 	total = 0
 	for number in numbers:
-		total = total + numbers
+		total = total + number
 	return(total)
 
-add(1,2,3,4,5,6,7,8,9)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+print(add(1,2,3,4,5,6,7,8,9))
