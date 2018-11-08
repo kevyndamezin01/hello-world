@@ -72,3 +72,33 @@ def add(*numbers):
 	return(total)
 
 print(add(1,2,3,4,5,6,7,8,9))
+
+
+def about(name, age, likes):
+	sentence = "Meet {} They are {} years old and they like {}".format(name, age, likes)
+	return sentence
+
+dictionary = {"name": "Kevyn", "age": "21", "likes": "Python"}
+
+# We use one start for normal arguments and we use two start for key work arguments
+print(about(**dictionary))
+
+
+def foo(**kwargs):
+	for key, value in kwargs.items():
+		print("{}:{}".format(key, value))
+
+print(foo(huda = "Female", Kevyn = "male", john = "male"))
+
+
+
+
+
+
+
+
+
+
+
+
+
