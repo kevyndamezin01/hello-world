@@ -1,13 +1,13 @@
-import os 
+import os
 
 
-board = ["  " for i in range(9)]
+board = [" " for i in range(9)]
 
 def print_board():
 	row1 = "| {} | {} | {} |".format(board[0], board[1], board[2])
 	row2 = "| {} | {} | {} |".format(board[3], board[4], board[5])
 	row3 = "| {} | {} | {} |".format(board[6], board[7], board[8])
-        
+
 	print()
 	print(row1)
 	print(row2)
@@ -25,7 +25,7 @@ def player_move(icon):
 		number = 2
 	print("You're turn player {}".format(number))
 	choice = int(input("What move would you like to enter (1-9)? ").strip())
-	if board[choice - 1] == "  ":
+	if board[choice - 1] == " ":
 		board[choice - 1] = icon
 	else:
 		choice = int(input("Sorry that space is taken please choose again: ").strip())
@@ -45,7 +45,7 @@ def is_victory(icon):
 		return False
 
 def is_draw():
-	if "  " not in board:
+	if " " not in board:
 		return True
 	else:
 		return False
@@ -83,6 +83,3 @@ while True:
 	elif is_draw():
 		print("There are no winners game is a draw!")
 		break
-
-
-
