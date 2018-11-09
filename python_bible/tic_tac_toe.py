@@ -1,5 +1,6 @@
 import os
 import random
+from termcolor import colored
 
 board = [" " for i in range(9)]
 
@@ -30,7 +31,7 @@ def player_move(icon):
 	else:
 		choice = int(input("Sorry that space is taken please choose again: ").strip())
 		board[choice - 1] = icon
-	
+		
 def is_victory(icon):
 	if (board[0] == icon and board[1] == icon and board[2] == icon) or \
 	   (board[3] == icon and board[4] == icon and board[5] == icon) or \
@@ -64,7 +65,7 @@ while True:
 	welcome_message()
 	print_board()
 	if is_victory("X"):
-		print("Congradulations player X you have won!!")
+		print(colored("Congradulations player X you have won!!", 'green'))
 		break
 	elif is_draw():
 		print("There are no winners game is a draw!")
@@ -72,9 +73,9 @@ while True:
 	player_move("O")
 	os.system('clear')
 	welcome_message()
-	if is_victory("0"):
+	if is_victory("O"):
 		print_board()
-		print("Congradulations O you have won!!").format(number)
+		print(colored("Congradulations O you have won!!", 'green'))
 		break
 	elif is_draw():
 		print("There are no winners game is a draw!")
