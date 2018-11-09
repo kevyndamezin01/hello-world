@@ -3,8 +3,6 @@
 // the sensor using a list of pre programmed commands.  
 boolean rxComplete = false;
 String inputString = "";
-int LED = 13;
-int current_state = LOW;
 int debug = 0;
 #define CONFIGURATION_DATA 0x80
 #define CONFIGURATION_ADDR 0x01
@@ -30,7 +28,6 @@ void setup() {
 Serial.begin(115200);
 Serial.println("Temperautre Sensor!");
 welcome_message();
-pinMode(LED, OUTPUT);
 pinMode(SCLK, OUTPUT);
 pinMode(MISO, INPUT);
 pinMode(CS, OUTPUT);
@@ -259,28 +256,9 @@ void welcome_message()
     Serial.println("Temperature Sensor... lets get some data!!");
   }
 }
-int toggle_LED(int LED, int current_state)
-{
-  if(current_state == LOW)
-  {
-    digitalWrite(LED, HIGH);
-    current_state = HIGH;
-  }
-  else
-  {
-    digitalWrite(LED, LOW);
-    current_state = LOW;
-  }
-  if (debug == 1)
-  {
-    Serial.println("Setting the LED to " + String(current_state));
-  }
-  return current_state;
-}
 void loop()
 {  // put your main code here, to run repeatedly:
   delay(1000);
   process_uart_messages();
   get_temp_readings();
-  current_state = toggle_LED(LED, current_state);
 }

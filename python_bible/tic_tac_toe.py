@@ -59,7 +59,9 @@ def welcome_message():
 	print(message)
 
 
-welcome_message()
+print("*********************************************")
+print("****************Tic-Tac-Toe******************")
+print("*********************************************")
 
 while True:
 	print_board()
