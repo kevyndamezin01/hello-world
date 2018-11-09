@@ -1,5 +1,5 @@
 import os
-
+import random
 
 board = [" " for i in range(9)]
 
@@ -30,7 +30,7 @@ def player_move(icon):
 	else:
 		choice = int(input("Sorry that space is taken please choose again: ").strip())
 		board[choice - 1] = icon
-
+	
 def is_victory(icon):
 	if (board[0] == icon and board[1] == icon and board[2] == icon) or \
 	   (board[3] == icon and board[4] == icon and board[5] == icon) or \
@@ -51,17 +51,11 @@ def is_draw():
 		return False
 
 def welcome_message():
-	message = """
-	      *********************************
-                        Tic-Tac-Toe
-              *********************************
-              """
-	print(message)
+	print("=============================================")
+	print("=============== Tic-Tac-Toe =================")
+	print("=============================================")
 
-
-print("*********************************************")
-print("****************Tic-Tac-Toe******************")
-print("*********************************************")
+welcome_message()
 
 while True:
 	print_board()
