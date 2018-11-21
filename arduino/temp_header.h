@@ -64,6 +64,15 @@ Description: This function will allow the user to read data that,
 */
 byte read_byte();
 
+
+// TEMPORARY -----------------------------------------------------
+
+
+byte get_temp_temp();
+
+void check_temp();
+
+// ---------------------------------------------------------------
 /*
 Function: byte read_ID()
 Description: This function will allow the user to retreive the,

@@ -57,6 +57,7 @@ void enable_continuous_read_mode()
 {
   // Write 0x54 to register 0x01
   send_data(ENABLE_CONTINUOUS_READ_DATA, CONFIGURATION_ADDR);
+  digitalWrite(MOSI, 0);
 }  
 
 void disable_continuous_read_mode()
@@ -83,12 +84,19 @@ void temp_initializer()
   Serial.begin(115200);
   Serial.println("Temperautre Sensor!");
   welcome_message();
-  pinMode(LED, OUTPUT);
+
+  // Set pins to correct starting values
   pinMode(SCLK, OUTPUT);
   pinMode(MISO, INPUT);
   pinMode(CS, OUTPUT);
   pinMode(MOSI, OUTPUT);
 
+   // Initilaize pins as idle high
+  //digitalWrite(CS, HIGH);
+  digitalWrite(SCLK, HIGH);
+  digitalWrite(MOSI, HIGH);
+
+//  reset_temp_sensor();
   start_TX();
   configure_temp_sensor();
   end_TX();
@@ -96,10 +104,13 @@ void temp_initializer()
   start_TX();
   read_ID();
   end_TX();
-  
+
   start_TX();
-  enable_1SPS_mode();
-  end_TX();
+  enable_continuous_read_mode();
+  
+//  start_TX();
+//  enable_1SPS_mode();
+//  end_TX();
 }
 
 void process_uart_messages()
@@ -117,8 +128,9 @@ void process_uart_messages()
       Serial.println("This is your help message!");
       Serial.println("To begin a steam of data use 'help off'");
       Serial.println("To begin a steam of temperature readings use 'get temp'");
-      Serial.println("To cancle the steam of temperature readings use 'turn temp off'");
-      Serial.println("To retrieve the manufacture number use 'get manufacture number'");
+      Serial.println("To cancle the steam of temperature readings use 'stop temp'");
+      Serial.println("To retrieve the manufacture number use 'get id'");
+      Serial.println("To reset the temp sensor use 'reset'");
     }
 
     else if (inputString == "help off")
@@ -138,21 +150,26 @@ void process_uart_messages()
       Serial.println("Debug is off");
     }
 
+    else if(inputString == "conf")
+    {
+        start_TX();
+        //set_temp_sensor();
+        enable_continuous_read_mode();
+    }
+
+    else if(inputString == "conf off")
+    {
+        end_TX();
+    }
+
     else if(inputString == "get temp")
     {
-      if(continuous_mode_enabled == false)
-      {
-        digitalWrite(MOSI, LOW);
-        digitalWrite(MISO, HIGH);
-        
-        Serial.println("Starting temperature readings");
-        reset_temp_sensor();
-        
-        start_TX();
-        enable_continuous_read_mode();
-         
-      }
-        get_temp_readings();          
+        check_temp();               
+    }
+
+    else if(inputString == "reset")
+    {
+      reset_temp_sensor();
     }
 
     else if(inputString == "stop temp")
@@ -177,6 +194,13 @@ void process_uart_messages()
       reset_temp_sensor();
       start_TX();
       read_ID();
+      end_TX();
+    }
+
+    else if(inputString == "x")
+    {
+      start_TX();
+      get_temp_temp();
       end_TX();
     }
     inputString = "";
@@ -274,6 +298,23 @@ byte read_byte()
   return rx_byte;
 }
 
+
+byte get_temp_temp()
+{
+  // Retrieve the manufacture ID number 
+  // 8 bit read only register where bit 3-7 is the Manufacture ID
+
+  // Send command byte to read from address 0x03 -> Command byte goes to 0x01 destination
+  send_data(0x40, CONFIGURATION_ADDR);  
+  // Read 8 bits
+
+  byte rx_data = 0x00;
+  rx_data = read_byte();
+
+  Serial.println("STATUS REG: " + String(rx_data));
+}
+
+
 byte read_ID()
 {
   // Retrieve the manufacture ID number 
@@ -291,11 +332,6 @@ byte read_ID()
 
 void configure_temp_sensor()
 {
-  // Initilaize pins as idle high
-  //digitalWrite(CS, HIGH);
-  digitalWrite(SCLK, HIGH);
-  digitalWrite(MOSI, HIGH);
-
   // Write 0x80 to register 0x01
   send_data(CONFIGURATION_DATA, CONFIGURATION_ADDR);
 }
@@ -311,7 +347,7 @@ int get_temp_readings()
 
     // Read bit from DOUT
     temp |= (digitalRead(MISO) << i);
-    Serial.println("Read bit: " + String(digitalRead(MISO)));
+    //Serial.println("Read bit: " + String(digitalRead(MISO)));
    
     // Send rising edge
     digitalWrite(SCLK, HIGH);
@@ -322,6 +358,22 @@ int get_temp_readings()
    // Send falling edge
    digitalWrite(SCLK, LOW);
   }
-  Serial.println("Read Temp in degrees: " + String(temp / 128));
   return temp;
+}
+
+void check_temp()
+{
+  int temp = get_temp_readings();
+  if((temp == 0x0000) or (temp == 0xFFFF))
+  {
+    Serial.println("Invalid reading: " + String(temp));
+    end_TX();
+    delay(1);
+    start_TX();
+    enable_continuous_read_mode();
+  }
+  else
+  {
+    Serial.println("Read Temp in degrees: " + String(temp / 128));
+  }
 }
