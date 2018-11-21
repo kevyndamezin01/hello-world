@@ -12,7 +12,6 @@ welcome_message()
 while True:
 	player_1 = input("Player1 please choose either rock, paper or scissors: ").strip().lower()
 	computer = random.choice(choices)
-	print("Player one has chosen {}".format(player_1))
 	print()
 	print("Good luck player 1")
 	print()

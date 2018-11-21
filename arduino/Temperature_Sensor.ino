@@ -12,5 +12,4 @@ void loop() {
   // put your main code here, to run repeatedly:
   delay(1000);
   process_uart_messages();
-  // get_temp_readings();
 }
