@@ -1,7 +1,6 @@
-import random
-import time 
-from logger import Logger
+import matplotlib.pyplot as plt
 
-while True:
-	print(random.randint(0,10))
-	time.sleep(1)
+plt.plot([2, 4, 4, 5, 1, 2, 1, 6, 2, 1, 2, 9, 4,], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 'ro')
+plt.axis[0, 10, 0, 20]
+plt.show()
+
