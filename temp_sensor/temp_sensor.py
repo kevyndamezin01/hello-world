@@ -2,12 +2,13 @@ import serial
 import matplotlib.pyplot as plt
 import time
 import argparse
+import sys
+from logger import Logger
 
-port = serial.Serial('COM55', baudrate=115200)
-
-print port.readline()
-print port.readline()
-print port.readline()
+def welcome_message():
+	print "===================================================="
+	print "=========== ADT7310 Temperature Sensor! ============"
+	print "===================================================="
 
 def print_id(port):
 	port.flush()
@@ -54,27 +55,42 @@ def plot_temperature():
 	plt.plot(graph(['uptime']), graph(['temp']))
 	plt.show()
 
-#if __name__ == '__main__':
-#	parser = argparse.ArgumentParser(
-#		description="This script will open a serial connection to an arduino which "\
-#					"will then control a temperature sensor and collect temperature "\
-#					"reading over a given period.")
-#	parser.add_argument("-n", "--num-samples", help="Provide how many temperature readings you would like a second.",
-#					    action='store_true', required=True)
-#	parser.add_argument("-d", "--duration", help="Provide how long you would like to collect temperature readings for.",
-#						action='store_true', required=True)
-#	parser.add_argument("-p", "--port", help="Provide the port which the arduino is conected to.", action='store_true',
-#						required=True)
-#	parser.add_argument("-max", "--max-temp", help="Provide the max temperature that will stop the test if this value is "\
-#	 					"and is read from the sensor", action='store_true', required=False)
-#	parser.add_argument("-min", "--max-temp", help="Provide the max temperature that will stop the test if this value is "\
-#	 					"and is read from the sensor", action='store_tue', required=False)
-#	parser.add_argument("-f", "--filename", help="Provide a filename for the output log", action='store_tue', required=False)
-#	parser.add_argument("-p", "--plot-temps", help="Specifiy wether you want the temperature readings plotted to a graph",
-#						action='store_true', required=Flase)
+if __name__ == '__main__':
+	parser = argparse.ArgumentParser(
+		description="This script will open a serial connection to an arduino which "\
+					"will then control a temperature sensor and collect temperature "\
+					"reading over a given period.")
+	parser.add_argument("-n", "--num-samples", help="Provide how many temperature readings you would like a second.",
+					    action='store_true', required=True)
+	parser.add_argument("-d", "--duration", help="Provide how long you would like to collect temperature readings for.",
+						action='store_true', required=True)
+	parser.add_argument("-p", "--port", help="Provide the port which the arduino is conected to.", action='store_true',
+						required=True)
+	parser.add_argument("-max", "--max-temp", help="Provide the max temperature that will stop the test if this value is "\
+	 					"and is read from the sensor", action='store_true', required=False)
+	parser.add_argument("-min", "--max-temp", help="Provide the max temperature that will stop the test if this value is "\
+	 					"and is read from the sensor", action='store_tue', required=False)
+	parser.add_argument("-f", "--filename", help="Provide a filename for the output log", action='store_tue', required=False,
+						type=str)
+	parser.add_argument("-p", "--plot-temps", help="Specifiy wether you want the temperature readings plotted to a graph",
+						action='store_true', required=Flase)
+	args = parser.parse_args()
+
+if args.plot_temps:
+	sys.stdout = Loogger(str(args.filename) + 'Temperature readings log')
+
+welcome_message()
+port = serial.Serial(args.port, baudrate=115200)
+
+print port.readline()
+print port.readline()
+print port.readline()
 
 print_id(port)
 print_data(port)
 print_temperature()
-plot_temperature()
+
+if args.plot_temps():
+	plot_temperature()
+
 port.close()
