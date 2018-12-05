@@ -20,11 +20,21 @@ def log_temperature_for_x_seconds(port, seconds):
 	print "Collecting temperature readings"
 	results={'temp': [], 'uptime_list': []}
 	uptime = 1
+	min_temp = args.min_temp
+	max_temp = args.max_temp
 	for s in range(seconds):
 		port.flush()
 		port.write("get temp\n")
 		time.sleep(0.1)
-		results['temp'].append(port.readline())
+		temperatue = prot.readline()
+		if temperatue <= min_temp:
+			port.close()
+			print "Ending script minimum temperatue has been reached: " + temperatue
+			break
+		elif temperatue >= max_temp:
+			port.close()
+			print "Ending script maximum temperature has been reached: " + temperatue
+		results['temp'].append(temperatue)
 		float(uptime)
 		results['uptime_list'].append(float(uptime))
 		uptime = float(uptime) + 1
@@ -40,13 +50,14 @@ def uptime():
 def print_data(port):
 	port.flush()
 	port.write("get temp\n")
-	print port.readline()
+	temperature = port.readline()
+	print "Temperature reading in degrees: " + temperatue
 
 def print_temperature():
 	logged_temps = log_temperature_for_x_seconds(port, 5)
 	temps_int = map(int, logged_temps['temp'])
 	uptime_int = logged_temps['uptime_list']
-	print temps_int
+	print "Temperature readings in degrees " + temps_int
 	print uptime_int
 	graph = {'temp': temps_int, 'uptime': uptime_int}
 	return graph
