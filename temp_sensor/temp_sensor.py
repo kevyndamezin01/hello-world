@@ -26,14 +26,15 @@ def log_temperature_for_x_seconds(port, seconds):
 		port.flush()
 		port.write("get temp\n")
 		time.sleep(0.1)
-		temperatue = prot.readline()
+		temperature = prot.readline()
 		if temperatue <= min_temp:
 			port.close()
-			print "Ending script minimum temperatue has been reached: " + temperatue
+			print "Ending script minimum temperatue has been reached: " + temperature
 			break
 		elif temperatue >= max_temp:
 			port.close()
-			print "Ending script maximum temperature has been reached: " + temperatue
+			print "Ending script maximum temperature has been reached: " + temperature
+			break
 		results['temp'].append(temperatue)
 		float(uptime)
 		results['uptime_list'].append(float(uptime))
@@ -51,7 +52,7 @@ def print_data(port):
 	port.flush()
 	port.write("get temp\n")
 	temperature = port.readline()
-	print "Temperature reading in degrees: " + temperatue
+	print "Temperature reading in degrees: " + temperature
 
 def print_temperature():
 	logged_temps = log_temperature_for_x_seconds(port, 5)
