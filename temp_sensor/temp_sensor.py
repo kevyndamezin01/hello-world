@@ -26,7 +26,7 @@ def log_temperature_for_x_seconds(port, seconds):
 		port.flush()
 		port.write("get temp\n")
 		time.sleep(0.1)
-		temperature = prot.readline()
+		temperature = port.readline()
 		if temperatue <= min_temp:
 			port.close()
 			print "Ending script minimum temperatue has been reached: " + temperature
