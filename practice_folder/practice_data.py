@@ -4,13 +4,9 @@ import subprocess
 import sys 
 import matplotlib.pyplot as plt
 
-
-
 start = time.time()
 
 period_of_time = 120 #2mins
-
-
 
 def collect_data(seconds):
 	results = {'number': [], 'uptime_list': []}
