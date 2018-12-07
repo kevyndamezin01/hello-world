@@ -9,31 +9,24 @@ start = time.time()
 period_of_time = 120 #2mins
 
 def collect_data(seconds):
-	results = {'number': [], 'uptime_list': []}
-	uptime = 1
+	results = []
 	print "Collecting Data"
 	for s in range(seconds):
-		result = random.randint(1,9)
-		results['number'].append(result)
-		uptime
-		results['uptime_list'].append(uptime)
-		uptime = uptime + 1
+		result = random.randint(1,20)
+		results.append(result)
 		time.sleep(1)
 	print "Finished collecting data"
 	return results
 
-def print_data():
-	number = []
-	uptime = []
-	logged_data = collect_data(5)
-	number.append(logged_data[['number']])
-	uptime.append(logged_data[['uptime_list']])
-	print number
-	print uptime
-	plt.plot(uptime, number)
+def print_data(seconds):
+	logged_data = collect_data(60)
+	print logged_data
+	uptime = range(0,seconds)
+	print(uptime)
+	plt.plot(uptime, logged_data)
 	plt.show()
 
-print_data()
+print_data(60)
 
 
 #while True:
