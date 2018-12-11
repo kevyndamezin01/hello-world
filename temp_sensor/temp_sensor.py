@@ -19,7 +19,6 @@ def print_id(port):
 def log_temperature_for_x_seconds(port, seconds):
 	print "Collecting temperature readings"
 	results = []
-	uptime = 1
 	min_temp = args.min_temp
 	max_temp = args.max_temp
 	for s in range(seconds):
@@ -46,8 +45,8 @@ def print_data(port):
 	temperature = port.readline()
 	print "Temperature reading in degrees: " + temperature
 
-def print_temperature():
-	logged_temps = log_temperature_for_x_seconds(port, 5)
+def print_temperature(seconds):
+	logged_temps = log_temperature_for_x_seconds(port, seconds)
 	print "Temperature readings in degrees " + logged_temps
 	return logged_temps
 			
@@ -74,7 +73,7 @@ if __name__ == '__main__':
 	 					"and is read from the sensor", action='store_tue', required=False)
 	parser.add_argument("-f", "--filename", help="Provide a filename for the output log", action='store_tue', required=False,
 						type=str)
-	parser.add_argument("-p", "--plot-temps", help="Specifiy wether you want the temperature readings plotted to a graph",
+	parser.add_argument("-t", "--plot-temps", help="Specifiy wether you want the temperature readings plotted to a graph",
 						action='store_true', required=False)
 
 	args = parser.parse_args()
@@ -91,7 +90,7 @@ if __name__ == '__main__':
 
 	print_id(port)
 	print_data(port)
-	print_temperature()
+	print_temperature(args.duration)
 
 	if args.plot_temps():
 		plot_temperature()
