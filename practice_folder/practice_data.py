@@ -22,8 +22,10 @@ def print_data(seconds):
 	logged_data = collect_data(60)
 	print logged_data
 	uptime = range(0,seconds)
-	print(uptime)
 	plt.plot(uptime, logged_data)
+	plt.title('Practice Data Graph')
+	plt.xlabel('Number of samples collected')
+	plt.ylabel('Value of data')
 	plt.show()
 
 print_data(60)
