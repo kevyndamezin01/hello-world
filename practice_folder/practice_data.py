@@ -31,24 +31,5 @@ def print_data(seconds):
 print_data(60)
 
 
-#while True:
-#	results = {'number': [], 'uptime_list': []}
-#	result = random.randint(1, 9)
-#	uptime = uptime + 1
-#	results['number'].append(result)
-#	results['uptime_list'].append(uptime)
-#	time.sleep(1)
-
-#	if time.time() > start + period_of_time : break
-	
-
-def print_numbers():
-	start = time.time()
-	period_of_time = 60
-	while True:
-		print(random.randint(1,9))
-		time.sleep(1)
-		if time.time() > start + period_of_time : break
-
 
 
