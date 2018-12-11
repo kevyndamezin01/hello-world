@@ -3,6 +3,10 @@ import time
 import subprocess
 import sys 
 import matplotlib.pyplot as plt
+from logger import Logger
+
+sys.path.append('/Users/kevyndamezin/Documents/')
+from logger import Logger 
 
 start = time.time()
 
@@ -13,6 +17,7 @@ def collect_data(seconds):
 	print "Collecting Data"
 	for s in range(seconds):
 		result = random.randint(1,20)
+		print result
 		results.append(result)
 		time.sleep(1)
 	print "Finished collecting data"
@@ -28,8 +33,11 @@ def print_data(seconds):
 	plt.ylabel('Value of data')
 	plt.show()
 
+sys.stdout = Logger(str('Practice Date Test Output'))
+
 print_data(60)
 
+sys.exit()
 
 
 
