@@ -5,16 +5,16 @@ max_number = 9
 min_number = 1
 
 def print_numbers():
-     max_number = 9
-     min_number = 1
+     max_number = 15
+     min_number = 4
      while True:
-         number = random.randint(1,9)
+         number = random.randint(1,20)
          print number
          time.sleep(1)
-         #if number == max_number:
-         #    break
-         #elif number == min_number:
-         #    break
+         if number >= max_number:
+             break
+         elif number <= min_number:
+             break
 
 print_numbers()
 
