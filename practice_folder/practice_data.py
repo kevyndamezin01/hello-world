@@ -12,14 +12,23 @@ start = time.time()
 
 period_of_time = 120 #2mins
 
+max_number = 15
+min_number = 4
+
 def collect_data(seconds):
 	results = []
 	print "Collecting Data"
 	for s in range(seconds):
 		result = random.randint(1,20)
-		print result
+		print 'Data collected is: ' + str(result)
 		results.append(result)
 		time.sleep(1)
+		if result >= max_number:
+			print 'Max Value has been reached ' + str(result)
+			sys.exit()
+		elif result <= min_number:
+			print 'Min Value has been reached ' + str(result)
+			sys.exit()
 	print "Finished collecting data"
 	return results
 

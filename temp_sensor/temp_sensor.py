@@ -11,7 +11,7 @@ def welcome_message():
 	print "===================================================="
 	user = raw_input("Do you want to continue [Y/N]? ").lower()
 	if user == 'n':
-		print 'Ending Script goodbye :('
+		print 'You have chosen not to continue, ending script!'
 		sys.exit()
 
 def print_id(port):
@@ -28,16 +28,17 @@ def log_temperature_for_x_seconds(port, seconds, samples):
 		port.write("get temp\n")
 		time.sleep(samples)
 		temperature = port.readline()
-		if temperature <= min_temp:
-			port.close()
-			print "Ending script minimum temperature has been reached: " + str(temperature)
-			sys.exit()
-		elif temperature >= max_temp:
+		print 'Temperature in degrees celsius is: ' + temperature
+		results.append(temperature)
+		time.sleep(1)
+		if temperature >= args.max_temp:
 			port.close()
 			print "Ending script maximum temperature has been reached: " + str(temperature)
 			sys.exit()
-		results.append(temperature)
-		time.sleep(1)
+		elif temperature <= args.min_temp:
+			port.close()
+			print "Ending script minimum temperature has been reached: " + str(temperature)
+			sys.exit()
 	print "finished collecting temperature readings"
 	return results
 
@@ -51,15 +52,18 @@ def print_temperature(seconds, samples):
 	print 'You have chosen not to plot the temperature'
 	logged_temps = log_temperature_for_x_seconds(port, seconds, samples)
 	temps_int = map(int, logged_temps)
-	print "Temperature readings in degrees " + str(temps_int)
+	print 'Temperature readings in Degrees Celsius: ' + str(temps_int)
 	return temps_int
 
 def plot_temperature(seconds, samples):
 	logged_temps = log_temperature_for_x_seconds(port, seconds, samples)
 	temps_int = map(int, logged_temps)
-	print "Temperature readings in degrees " + str(temps_int)
+	print 'Temperature readings in Degrees Celsius: ' + str(temps_int)
 	uptime = range(0, args.duration)
 	plt.plot(uptime, temps_int)
+	plt.title('ADT7310 Temperature Sensor!')
+	plt.xlabel('Samples Collected')
+	plt.ylabel('Temperature in Degrees Celsius')
 	plt.show()
 			
 if __name__ == '__main__':
@@ -80,8 +84,7 @@ if __name__ == '__main__':
 	parser.add_argument("-f", "--filename", help="Provide a filename for the output log", action='store', required=False,
 						type=str)
 	parser.add_argument("-p", "--plot-temps", help="Specifiy wether you want the temperature readings plotted to a graph",
-						action='store', type=bool, required=False)
-
+						action='store_true', required=False)
 	args = parser.parse_args()
 
 	#if args.plot_temps:
@@ -90,17 +93,15 @@ if __name__ == '__main__':
 	welcome_message()
 	
 	port = serial.Serial(args.com_port, baudrate=115200)
-	max_temp = args.max_temp
-	min_temp = args.min_temp
 
 	port.readline()
 
 	print_id(port)
 	print_data(port)
 
-	if args.plot_temps == True:
+	if args.plot_temps:
 		plot_temperature(args.duration, args.num_samples)
-	elif args.plot_temps == False:
+	else:
 		print_temperature(args.duration, args.num_samples)
 
 	port.close()

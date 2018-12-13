@@ -1,9 +1,6 @@
 import time
 import random
 
-max_number = 9
-min_number = 1
-
 def print_numbers():
      max_number = 15
      min_number = 4
@@ -18,8 +15,4 @@ def print_numbers():
 
 print_numbers()
 
-while print_numbers() == True:
-    if print_numbers() == max_number:
-        break
-    elif print_numbers() == min_number:
-        break
+
