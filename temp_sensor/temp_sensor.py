@@ -27,7 +27,7 @@ def log_temperature_for_x_seconds(port, seconds, samples):
 		port.flush()
 		port.write("get temp\n")
 		time.sleep(samples)
-		temperature = port.readline()
+		temperature = float(port.readline())
 		print 'Temperature in degrees celsius is: ' + temperature
 		results.append(temperature)
 		time.sleep(1)
