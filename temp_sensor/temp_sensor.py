@@ -28,7 +28,7 @@ def log_temperature_for_x_seconds(port, seconds, samples):
 		port.write("get temp\n")
 		time.sleep(samples)
 		temperature = float(port.readline())
-		print 'Temperature in degrees celsius is: ' + temperature
+		print 'Temperature in degrees celsius is: ' + str(temperature)
 		results.append(temperature)
 		time.sleep(1)
 		if temperature >= args.max_temp:
@@ -49,7 +49,7 @@ def print_data(port):
 	print "Temperature reading in degrees: " + str(temperature)
 
 def print_temperature(seconds, samples):
-	print 'You have chosen not to plot the temperature'
+	print 'You have chosen not to plot the temperature: '
 	logged_temps = log_temperature_for_x_seconds(port, seconds, samples)
 	temps_int = map(int, logged_temps)
 	print 'Temperature readings in Degrees Celsius: ' + str(temps_int)
