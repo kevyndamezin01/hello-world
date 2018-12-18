@@ -3,7 +3,6 @@ import time
 import subprocess
 import sys 
 import matplotlib.pyplot as plt
-from logger import Logger
 
 sys.path.append('/Users/kevyndamezin/Documents/')
 from logger import Logger 
@@ -12,28 +11,29 @@ start = time.time()
 
 period_of_time = 120 #2mins
 
-max_number = 15
-min_number = 4
+max_number = 21
+min_number = 0
 
-def collect_data(seconds):
-	results = []
-	print "Collecting Data"
-	for s in range(seconds):
-		result = random.randint(1,20)
-		print 'Data collected is: ' + str(result)
-		results.append(result)
-		time.sleep(1)
-		if result >= max_number:
-			print 'Max Value has been reached ' + str(result)
-			sys.exit()
-		elif result <= min_number:
-			print 'Min Value has been reached ' + str(result)
-			sys.exit()
-	print "Finished collecting data"
+def collect_data(test, seconds):
+	for t in range(test):
+		results = []
+		print "Collecting Data"
+		for s in range(seconds):
+			result = random.randint(1,20)
+			print 'Data collected is: ' + str(result)
+			results.append(result)
+			time.sleep(1)
+			if result >= max_number:
+				print 'Max Value has been reached ' + str(result)
+				sys.exit()
+			elif result <= min_number:
+				print 'Min Value has been reached ' + str(result)
+				sys.exit()
+		print "Finished collecting data"
 	return results
 
-def print_data(seconds):
-	logged_data = collect_data(60)
+def print_data(test, seconds):
+	logged_data = collect_data(60, 5)
 	print logged_data
 	uptime = range(0,seconds)
 	plt.plot(uptime, logged_data)
@@ -44,7 +44,7 @@ def print_data(seconds):
 
 sys.stdout = Logger(str('Practice Date Test Output'))
 
-print_data(60)
+print_data(60, 5)
 
 sys.exit()
 
