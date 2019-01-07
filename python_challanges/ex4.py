@@ -4,4 +4,4 @@ list = range(1, number+1)
 
 for i in list:
     if number % i == 0:
-        print i
+        print("{} is a multiple of {}").format(i, number)
