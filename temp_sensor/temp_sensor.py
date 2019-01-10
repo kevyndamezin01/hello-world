@@ -26,7 +26,7 @@ def log_temperature_for_x_seconds(port, duration, samples):
 	results = []
 	start_time = time.time()
 
-	while time.time() < (start_time + duration):
+	while (time.time() - start_time) < start_time - duration:
 		print('Current time: {}'.format(time.time()))
 		print('end time: {}'.format(start_time + duration))
 		print('seconds: {}'.format(duration))
@@ -68,7 +68,7 @@ def plot_temperature(duration, samples):
 	logged_temps = log_temperature_for_x_seconds(port, duration, samples)
 	temps_int = map(int, logged_temps)
 	print 'Temperature readings in Degrees Celsius: ' + str(temps_int)
-	uptime = range(0, args.duration)
+	uptime = range(0, len(temps_int))
 	plt.plot(uptime, temps_int)
 	plt.title('ADT7310 Temperature Sensor!')
 	plt.xlabel('Samples Collected')
@@ -89,7 +89,7 @@ if __name__ == '__main__':
 	parser.add_argument("-max", "--max-temp", help="Provide the max temperature that will stop the test if this value is "\
 	 					"and is read from the sensor", action='store', type=float, required=False, default=35)
 	parser.add_argument("-min", "--min-temp", help="Provide the max temperature that will stop the test if this value is "\
-	 					"and is read from the sensor", action='store', type=float, required=False, default=16)
+	 					"and is read from the sensor", action='store', type=float, required=False, default=-10)
 	parser.add_argument("-f", "--filename", help="Provide a filename for the output log", action='store', required=False,
 						type=str)
 	parser.add_argument("-p", "--plot-temps", help="Specifiy wether you want the temperature readings plotted to a graph",
@@ -113,4 +113,5 @@ if __name__ == '__main__':
 	else:
 		print_temperature(args.duration, args.time_between_samples)
 
+	print("Closing port to the arduino, Goodbye :)!")
 	port.close()
