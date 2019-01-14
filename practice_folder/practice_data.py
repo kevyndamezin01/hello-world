@@ -33,7 +33,7 @@ def collect_data(test, seconds):
 	return results
 
 def print_data(test, seconds):
-	logged_data = collect_data(60, 5)
+	logged_data = collect_data(5, 5)
 	print logged_data
 	uptime = range(0,seconds)
 	plt.plot(uptime, logged_data)
@@ -44,7 +44,7 @@ def print_data(test, seconds):
 
 sys.stdout = Logger(str('Practice Date Test Output'))
 
-print_data(60, 5)
+print_data(5, 5)
 
 sys.exit()
 
