@@ -26,16 +26,16 @@ def log_temperature_for_x_seconds(port, duration, samples):
 	results = []
 	start_time = time.time()
 
-	while (time.time() - start_time) < start_time - duration:
+	while (time.time() - start_time) < duration:
 		print('Current time: {}'.format(time.time()))
 		print('end time: {}'.format(start_time + duration))
 		print('seconds: {}'.format(duration))
-		start_time = time.time()
+		current_time = time.time()
 		port.flush()
 		port.write("get temp\n")
 		temperature = float(port.readline())
 		end_time = time.time()
-		print('Exec time: {}'.format(end_time - start_time))
+		print('Exec time: {}'.format(end_time - current_time))
 		print 'Temperature in degrees celsius is: ' + str(temperature)
 		results.append(temperature)
 		time.sleep(samples)
@@ -101,7 +101,7 @@ if __name__ == '__main__':
 
 	welcome_message()
 	
-	port = serial.Serial(args.com_port, baudrate=115200)
+	port = serial.Serial(args.com_port, baudrate=9600)
 
 	port.readline()
 
