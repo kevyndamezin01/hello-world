@@ -57,23 +57,25 @@ def print_data(port):
 	temperature = port.readline()
 	print "Temperature reading in degrees: " + str(temperature)
 
-def print_temperature(duration, samples):
+def print_temperature():
 	print 'You have chosen not to plot the temperature: '
-	logged_temps = log_temperature_for_x_seconds(port, duration, samples)
 	temps_int = map(int, logged_temps)
 	print 'Temperature readings in Degrees Celsius: ' + str(temps_int)
 	return temps_int
 
-def plot_temperature(duration, samples):
-	logged_temps = log_temperature_for_x_seconds(port, duration, samples)
+def plot_temperature():
 	temps_int = map(int, logged_temps)
 	print 'Temperature readings in Degrees Celsius: ' + str(temps_int)
 	uptime = range(0, len(temps_int))
 	plt.plot(uptime, temps_int)
 	max_temp_limit = args.max_temp, args.max_temp
 	min_temp_limit = args.min_temp, args.min_temp
-	plt.plot(max_temp_limit, 'r')
-	plt.plot(min_temp_limit, 'r')
+	if args.max_temp in temps_int:
+		plt.plot(max_temp_limit, 'r')
+		plt.plot(min_temp_limit, 'r')
+	else:
+		plt.plot(max_temp_limit, 'g')
+		plt.plot(min_temp_limit, 'g')
 	plt.title('ADT7310 Temperature Sensor!')
 	plt.xlabel('Samples Collected')
 	plt.ylabel('Temperature in Degrees Celsius')
@@ -91,7 +93,7 @@ if __name__ == '__main__':
 	parser.add_argument("-c", "--com_port", help="Provide the port which the arduino is conected to.", action='store',
 						type=str, required=False, default='COM55')
 	parser.add_argument("-max", "--max-temp", help="Provide the max temperature that will stop the test if this value is "\
-	 					"and is read from the sensor", action='store', type=float, required=False, default=35)
+	 					"and is read from the sensor", action='store', type=float, required=False, default=30)
 	parser.add_argument("-min", "--min-temp", help="Provide the max temperature that will stop the test if this value is "\
 	 					"and is read from the sensor", action='store', type=float, required=False, default=-10)
 	parser.add_argument("-f", "--filename", help="Provide a filename for the output log", action='store', required=False,
@@ -112,10 +114,12 @@ if __name__ == '__main__':
 	print_id(port)
 	print_data(port)
 
+	logged_temps = log_temperature_for_x_seconds(port, args.duration, args.time_between_samples)
+
 	if args.plot_temps:
-		plot_temperature(args.duration, args.time_between_samples)
+		plot_temperature()
 	else:
-		print_temperature(args.duration, args.time_between_samples)
+		print_temperature()
 
 	print("Closing port to the arduino, Goodbye :)!")
 	port.close()
