@@ -67,7 +67,7 @@ def plot_temperature():
 	temps_int = map(int, logged_temps)
 	print 'Temperature readings in Degrees Celsius: ' + str(temps_int)
 	uptime = range(0, len(temps_int))
-	plt.plot(uptime, temps_int)
+	plt.plot(uptime, temps_int, '-x')
 	max_temp_limit = args.max_temp, args.max_temp
 	min_temp_limit = args.min_temp, args.min_temp
 	if args.max_temp in temps_int:
