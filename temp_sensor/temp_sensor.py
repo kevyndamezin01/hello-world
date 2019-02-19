@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import time
 import argparse
 import sys
+import csv
 #from logger import Logger
 
 def welcome_message():
@@ -20,6 +21,10 @@ def print_id(port):
 	port.write("get id\n")
 	print 'Manufacturer Number: ' + port.readline()
 
+def create_csv(port, duration, samples):
+    with open(args.filename.csv, 'wb') as f:
+        write = csv.writer(f, quoting=csv.QUOTE_ALL)
+        write.writerows([log_temperature_for_x_seconds(port, duration, samples)])
 
 def log_temperature_for_x_seconds(port, duration, samples):
 	print "Collecting temperature readings"
@@ -67,7 +72,7 @@ def plot_temperature():
 	temps_int = map(int, logged_temps)
 	print 'Temperature readings in Degrees Celsius: ' + str(temps_int)
 	uptime = range(0, len(temps_int))
-	plt.plot(uptime, temps_int)
+	plt.plot(uptime, temps_int, '-x')
 	max_temp_limit = args.max_temp, args.max_temp
 	min_temp_limit = args.min_temp, args.min_temp
 	if args.max_temp in temps_int:
@@ -114,7 +119,7 @@ if __name__ == '__main__':
 	print_id(port)
 	print_data(port)
 
-	logged_temps = log_temperature_for_x_seconds(port, args.duration, args.time_between_samples)
+	logged_temps = create_csv(port, args.duration, args.time_between_samples)
 
 	if args.plot_temps:
 		plot_temperature()
