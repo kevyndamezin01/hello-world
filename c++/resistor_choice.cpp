@@ -13,17 +13,20 @@ int main()
 
     cout << "Hello there what is you're name?\n";
     cin >> name;
-    cout << "Hello there " << name << "\n";
+    cout << "\n";
+    cout << "Hello there " << name << "\n\n";
 
     cout << "This script will either work out the total resistance of a Parallel Resistor Network or a Series Resistor Network.\n\n";
 
     // Getting the Value of R1.
     cout << "What is the value of R1\n";
     cin >> R1;
-    
+    cout << "\n";
+
     // Getting the value of R2.
     cout << "What is the value of R2\n";
     cin >> R2;
+    cout << "\n";
     
     // Aksing the user if they wish to work out parallel or series total resistance.
     cout << "Would you like to work out the total resitance for a Parallel or Series circuit?\n";
