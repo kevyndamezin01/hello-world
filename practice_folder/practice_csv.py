@@ -1,13 +1,23 @@
 import csv
 import time
 import matplotlib.pyplot as plt
+import time
+import random
 
-def print_number():
+def print_number(seconds):
     listx = []
-    for i in range(0, 10):
-        listx.append(i)
-
-    return listx
+    uptime = []
+    for i in range(seconds):
+        result = random.randint(1,20)
+        print("Result is: {value}".format(value=result))
+        listx.append(result)
+        current_time = time.time()
+        uptime.append(current_time)
+        time.sleep(1)
+        create_csv(listx, uptime)
+        
+        
+    return listx, uptime
 
 def print_numberx2():
 	listy = []
@@ -16,20 +26,36 @@ def print_numberx2():
 
 	return listy
 
-with open('mycsv.csv', 'wb') as f:
-    thewriter = csv.writer(f, quoting=csv.QUOTE_ALL)
-    thewriter.writerows([print_numberx2()])
-    thewriter.writerows([print_number()])
+def create_csv(listx, uptime):
+    with open('mycsv.csv', 'wb') as f:
+        thewriter = csv.writer(f, quoting=csv.QUOTE_ALL)
+        thewriter.writerow([listx, uptime])
+
+def print_csv():
+	f = open('mycsv.csv')
+	csv_f = csv.reader(f)
+
+	for row in csv_f:
+		print(row)
 
 
-f = open('mycsv.csv')
-csv_f = csv.reader(f)
+def plot_csv():
+	print("Plotind data from CSV file.")
+	f = open('mycsv.csv')
+	csv_f = csv.reader(f)	
+        x = []
 
-x = []
-y = []	
+	for row in csv_f:
+		fig = plt.figure()
+		fig1 = fig.add_subplot(211)
 
-for row in csv_f:
-	print(row)
-	plt.plot(row, range(0,len(row)))
-	plt.show()
+		fig1.plot(row, 'ro')
+		plt.show()
+
+		fig.savefig("test.pdf", bbox_inches = 'tight')
+
+print_number(5)
+print_csv()
+plot_csv()
+
 
