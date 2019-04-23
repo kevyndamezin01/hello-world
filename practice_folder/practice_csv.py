@@ -4,21 +4,20 @@ import matplotlib.pyplot as plt
 import time
 import random
 
-def print_number():
+def print_number(seconds):
     listx = []
     uptime = []
-    for i in range(0, 10):
+    for i in range(seconds):
         result = random.randint(1,20)
-        print(result)
+        print("Result is: {value}".format(value=result))
         listx.append(result)
         current_time = time.time()
         uptime.append(current_time)
-        create_csv(listx, uptime)
-        print("Sleeping for 1 second")
         time.sleep(1)
+        create_csv(listx, uptime)
         
         
-    return listx
+    return listx, uptime
 
 def print_numberx2():
 	listy = []
@@ -30,8 +29,7 @@ def print_numberx2():
 def create_csv(listx, uptime):
     with open('mycsv.csv', 'wb') as f:
         thewriter = csv.writer(f, quoting=csv.QUOTE_ALL)
-        thewriter.writerows([listx])
-        thewriter.writerows([uptime])
+        thewriter.writerow([listx, uptime])
 
 def print_csv():
 	f = open('mycsv.csv')
@@ -43,15 +41,21 @@ def print_csv():
 
 def plot_csv():
 	print("Plotind data from CSV file.")
-    f = open('mycsv.csv')
-    csv_f = csv.reader(f)	
+	f = open('mycsv.csv')
+	csv_f = csv.reader(f)	
+        x = []
 
-    for row in csv_f:
-	    print(row)
-	    plt.plot(row, range(0,len(row)), 'ro')
-	    plt.show()
+	for row in csv_f:
+		fig = plt.figure()
+		fig1 = fig.add_subplot(211)
 
-print_number()
+		fig1.plot(row, 'ro')
+		plt.show()
+
+		fig.savefig("test.pdf", bbox_inches = 'tight')
+
+print_number(5)
 print_csv()
 plot_csv()
+
 
