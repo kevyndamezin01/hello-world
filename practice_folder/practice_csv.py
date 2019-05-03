@@ -7,6 +7,7 @@ import random
 def print_number(seconds):
     listx = []
     uptime = []
+    print("Collecting Data:")
     for i in range(seconds):
         result = random.randint(1,20)
         print("Result is: {value}".format(value=result))
@@ -29,7 +30,7 @@ def print_numberx2():
 def create_csv(listx, uptime):
     with open('mycsv.csv', 'wb') as f:
         thewriter = csv.writer(f, quoting=csv.QUOTE_ALL)
-        thewriter.writerow([listx, uptime])
+        thewriter.writerows([listx, uptime])
 
 def print_csv():
 	f = open('mycsv.csv')
