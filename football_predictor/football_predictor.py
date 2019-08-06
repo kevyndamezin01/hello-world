@@ -22,14 +22,15 @@ half_time_result = []
 home_score = []
 away_score = []
 
-for row in csv_f:
-    date = row[1]
-    home_team.append(row[2])
-    away_team.append(row[3])
-    home_goals.append(row[4])
-    away_goals.append(row[5])
-    full_time_result.append(row[6])
-    half_time_result.append(row[9])
+def open_csv_file():
+    for row in csv_f:
+        date = row[1]
+        home_team.append(row[2])
+        away_team.append(row[3])
+        home_goals.append(row[4])
+        away_goals.append(row[5])
+        full_time_result.append(row[6])
+        half_time_result.append(row[9])
 
 def check_for_home_team():
     if args.home_team in home_team:
@@ -58,7 +59,7 @@ def get_home_team_goals():
     index = get_home_team_index()
     print("Home team index is {index}".format(index=index))
     
-
+open_csv_file()
 check_for_home_team()
 #check_for_away_team()
 get_home_team_index()
