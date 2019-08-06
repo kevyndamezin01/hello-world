@@ -41,11 +41,10 @@ def check_for_away_team():
 
 def get_home_team_index():
     home_team_index = []
-    for team in home_team:
-        if args.home_team == team:
-            home_team_index.append(home_team.index(team))
-            print(home_team_index)
-            time.sleep(1)
+    while args.home_team in home_team:
+        home_team_index.append(home_team.index(args.home_team))
+        print(home_team_index)
+        time.sleep(1)
     return home_team_index
 
 def get_away_team_index():
