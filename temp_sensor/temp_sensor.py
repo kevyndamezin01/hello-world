@@ -4,7 +4,7 @@ import time
 import argparse
 import sys
 import csv
-#from logger import Logger
+
 
 def welcome_message():
 	print "===================================================="
@@ -106,9 +106,6 @@ if __name__ == '__main__':
 	parser.add_argument("-p", "--plot-temps", help="Specifiy wether you want the temperature readings plotted to a graph",
 						action='store_true', required=False)
 	args = parser.parse_args()
-
-	#if args.plot_temps:
-	#	sys.stdout = Logger(str(args.filename) + 'Temperature readings log')
 
 	welcome_message()
 	
