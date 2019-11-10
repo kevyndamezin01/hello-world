@@ -21,10 +21,10 @@ def print_id(port):
 	port.write("get id\n")
 	print('Manufacturer Number: {port}'.format(port=port.readline()))
 
-def create_csv(port, duration, samples):
+def create_csv(results):
     with open(args.filename.csv, 'wb') as f:
-        write = csv.writer(f, quoting=csv.QUOTE_ALL)
-        write.writerows([log_temperature_for_x_seconds(port, duration, samples)])
+        write = csv.writer(f)
+        write.writerows(results)
 
 def log_temperature_for_x_seconds(port, duration, samples):
 	print("Collecting temperature readings")
@@ -32,15 +32,15 @@ def log_temperature_for_x_seconds(port, duration, samples):
 	start_time = time.time()
 
 	while (time.time() - start_time) < duration:
-		print('Current time: {}'.format(time.time()))
-		print('end time: {}'.format(start_time + duration))
-		print('seconds: {}'.format(duration))
+		#print('Current time: {}'.format(time.time()))
+		#print('end time: {}'.format(start_time + duration))
+		#print('seconds: {}'.format(duration))
 		current_time = time.time()
 		port.flush()
 		port.write("get temp\n")
 		temperature = float(port.readline())
 		end_time = time.time()
-		print('Exec time: {}'.format(end_time - current_time))
+		#print('Exec time: {}'.format(end_time - current_time))
 		print('Temperature in degrees celsius is: {}'.format(str(temperature)))
 		results.append(temperature)
 		time.sleep(samples)
@@ -54,7 +54,7 @@ def log_temperature_for_x_seconds(port, duration, samples):
 			sys.exit()
 
 	print("finished collecting temperature readings")
-	return results
+	create_csv(results)
 
 def print_data(port):
 	port.flush()
@@ -91,11 +91,11 @@ if __name__ == '__main__':
 		description="This script will open a serial connection to an arduino which "\
 					"will then control a temperature sensor and collect temperature "\
 					"reading over a given period.")
-	parser.add_argument("-t", "--time-between-samples", help="How long to wait between samples. Minimum is 1.5 seconds.",
-					    action='store', type=int, required=False, default=2)
+	parser.add_argument("-s", "--samples", help="How long to wait between samples. Minimum is 1.5 seconds.",
+					    action='store', type=int, required=False, default=1)
 	parser.add_argument("-d", "--duration", help="Provide how long you would like to collect temperature readings for.",
 						action='store', type=int, required=False, default=5)
-	parser.add_argument("-c", "--com_port", help="Provide the port which the arduino is conected to.", action='store',
+	parser.add_argument("-c", "--com-port", help="Provide the port which the arduino is conected to.", action='store',
 						type=str, required=False, default='COM55')
 	parser.add_argument("-max", "--max-temp", help="Provide the max temperature that will stop the test if this value is "\
 	 					"and is read from the sensor", action='store', type=float, required=False, default=30)
@@ -116,7 +116,7 @@ if __name__ == '__main__':
 	print_id(port)
 	print_data(port)
 
-	logged_temps = create_csv(port, args.duration, args.time_between_samples)
+	logged_temps = log_temperature_for_x_seconds(port, args.duration, args.samples)
 
 	if args.plot_temps:
 		plot_temperature()
