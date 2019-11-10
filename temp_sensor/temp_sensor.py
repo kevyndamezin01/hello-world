@@ -7,19 +7,19 @@ import csv
 
 
 def welcome_message():
-	print "===================================================="
-	print "=========== ADT7310 Temperature Sensor! ============"
-	print "===================================================="
+	print("====================================================")
+	print("=========== ADT7310 Temperature Sensor! ============")
+	print("====================================================")
 	user = raw_input("Do you want to continue [Y/N]? ").lower()
 	if user == 'n':
-		print 'You have chosen not to continue, ending script!'
+		print('You have chosen not to continue, ending script!')
 		sys.exit(-1)
 
 def print_id(port):
-	print 'Retreving the Manufacturers ID'
+	print('Retreving the Manufacturers ID')
 	port.flush()
 	port.write("get id\n")
-	print 'Manufacturer Number: ' + port.readline()
+	print('Manufacturer Number: {port}'.format(port=port.readline()))
 
 def create_csv(port, duration, samples):
     with open(args.filename.csv, 'wb') as f:
@@ -27,7 +27,7 @@ def create_csv(port, duration, samples):
         write.writerows([log_temperature_for_x_seconds(port, duration, samples)])
 
 def log_temperature_for_x_seconds(port, duration, samples):
-	print "Collecting temperature readings"
+	print("Collecting temperature readings")
 	results = []
 	start_time = time.time()
 
@@ -41,36 +41,36 @@ def log_temperature_for_x_seconds(port, duration, samples):
 		temperature = float(port.readline())
 		end_time = time.time()
 		print('Exec time: {}'.format(end_time - current_time))
-		print 'Temperature in degrees celsius is: ' + str(temperature)
+		print('Temperature in degrees celsius is: {}'.format(str(temperature)))
 		results.append(temperature)
 		time.sleep(samples)
 		if temperature >= args.max_temp:
 			port.close()
-			print "Ending script maximum temperature has been reached: " + str(temperature)
+			print("Ending script maximum temperature has been reached: {}".format(str(temperature)))
 			sys.exit()
 		elif temperature <= args.min_temp:
 			port.close()
-			print "Ending script minimum temperature has been reached: " + str(temperature)
+			print("Ending script minimum temperature has been reached: {}".format(str(temperature)))
 			sys.exit()
 
-	print "finished collecting temperature readings"
+	print("finished collecting temperature readings")
 	return results
 
 def print_data(port):
 	port.flush()
 	port.write("get temp\n")
 	temperature = port.readline()
-	print "Temperature reading in degrees: " + str(temperature)
+	print("Temperature reading in degrees: {}".format(str(temperature)))
 
 def print_temperature():
-	print 'You have chosen not to plot the temperature: '
+	print('You have chosen not to plot the temperature.')
 	temps_int = map(int, logged_temps)
-	print 'Temperature readings in Degrees Celsius: ' + str(temps_int)
+	print('Temperature readings in Degrees Celsius: {}'.format(str(temps_int)))
 	return temps_int
 
 def plot_temperature():
 	temps_int = map(int, logged_temps)
-	print 'Temperature readings in Degrees Celsius: ' + str(temps_int)
+	print('Temperature readings in Degrees Celsius: {}'.format(str(temps_int)))
 	uptime = range(0, len(temps_int))
 	plt.plot(uptime, temps_int, '-x')
 	max_temp_limit = args.max_temp, args.max_temp
