@@ -3,6 +3,7 @@ import argparse
 import serial
 import time
 import matplotlib.pyplot as plt
+import csv
 
 def welcome_message():
     print("====================================================")
@@ -33,6 +34,11 @@ def eliminate_first_guff_reading(port):
     port.write("get temp\n")
     port.readline()
 
+def create_csv(results):
+    with open(args.filename.csv, 'wb') as f:
+        writer = csv.writer(f, delimiter=',')
+        writer.writerow([results])
+
 def log_temperature_readings(port):
     print("Collecting temperture readings")
     start_time = time.time()
@@ -44,19 +50,37 @@ def log_temperature_readings(port):
         port.flush()
         port.write("get temp\n")
         temperature = port.readline()
-        if temperature == max_temp or min_temp:
-            print("Temperature has hit limit exiting the script.")
+        if temperature == max_temp:
+            print("Temperature {temp} has hit max limit {max} exiting the script."
+                  .format(temp=temperature, max=max_temp))
             exit(-1)
+        elif temperature == min_temp:
+            print("Temperature {temp} has hit min limit {min} exiting the script."
+                 .format(temp=temperature, min=min_temp))
         print("Temperature Reading is: {temp}".format(temp=temperature))
         results.append(temperature)
     print("Finished collecting temperature readings!")
+    print("Putting results into csv file")
+    create_csv(results)
     return results
 
 def plot_temperature_readings():
+    print("Plotting Temperature Reading that where collected!")
     temps = map(int, logged_temps)
     x_axis = temps
     y_axis = range(0, len(temps))
-    plt.plot(y_axis, x_axis)
+    plt.plot(y_axis, x_axis, '-x')
+    max_temp_limit = args.max_temp
+    min_temp_limit = args.min_temp
+    if args.max_temp or min_tmep in logged_temps:
+		plt.axhline(y=max_temp_limit, color='r', linestyle='-')
+		plt.axhline(y=min_temp_limit, color='r', linestyle='-')
+    else:
+		plt.axhline(y=max_temp_limit, color='g', linestyle='-')
+		plt.axhline(y=min_temp_limit, color='g', linestyle='-')
+    plt.title('ADT7310 Temperature Sensor!')
+    plt.xlabel('Temperature (degrees)')
+    plt.ylabel('Time (s)')
     plt.show()
 
 def print_temperature_readings():
@@ -64,7 +88,7 @@ def print_temperature_readings():
     print("You have chosen not to plot the results")
     print("Temperature readings in Degrees are: {temps}".format(temps=temps))
 
-if __name__ == '__main__':
+if __name__ == '__main__':  
     parser = argparse.ArgumentParser(
     description= """This script will open a serial connection to an arduino which
 					will then control a temperature sensor and collect temperature
@@ -79,6 +103,8 @@ if __name__ == '__main__':
                         type=int, default=40, required=False)
     parser.add_argument("-min", "--min-temp", help="Provide a minimum limit for the temperature sensor", action='store',
                         type=int, required=False, default=-1)
+    parser.add_argument("-f", "--filename", help="Provide a Filename in which the CSV file will be saved as", 
+                        action='store', default="Temperature_Readings")
     args = parser.parse_args()
 
     welcome_message()
