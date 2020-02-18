@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser(description=desc)
 parser.add_argument('-s', '--season', default="2019", help="Supply the season in which you wish to collect data from",
                      type=int, required=True)
 parser.add_argument('-ht', '--home-team', help="Supply the home team", type=str, required=True)
-parser.add_argument('-at', '--away-team', help="Supply the away team", type=str, required=False)
+parser.add_argument('-at', '--away-team', help="Supply the away team", type=str, required=True)
 args = parser.parse_args()
 
 date = []
@@ -53,40 +53,47 @@ def get_home_team_index():
     start_index = 0
     home_team_index = []
     for team in home_team:
-        print(team)
-        time.sleep(0.01)
         if team == args.home_team:
             index = home_team.index(team, start_index + 1)
-            print(index)
-            time.sleep(1)
+            print("Found {team} at index: {index}".format(team=team, index=index))
+            time.sleep(0.5)
             home_team_index.append(index)
             start_index = index
-    print(home_team_index)
     return home_team_index
 
 def get_away_team_index():
     start_index = 0
     away_team_index = []
     for team in away_team:
-        print(team)
-        time.sleep(0.01)
-        if team == args.away_team or args.home_team:
-            index = home_team.index(team, start_index + 1)
-            print(index)
-            time.sleep(1)
+        if team == args.away_team:
+            index = away_team.index(team, start_index + 1)
+            print("Found {team} at index: {index}".format(team=team, index=index))
+            time.sleep(0.5)
             away_team_index.append(index)
             start_index = index
-    print(away_team_index)
     return away_team_index
+
+def check_if_team_played_onanother():
+    home_team = get_home_team_index()
+    away_team = get_away_team_index()
 
 def get_home_team_goals():
     index = get_home_team_index()
-    print("Home team index is {index}".format(index=index))
+    for i in index:
+        print("Home team goal is: {}".format(home_goals[i]))
+        time.sleep(0.5)
+
+def get_away_team_goals():
+    index = get_away_team_index()
+    for i in index:
+        print("Away team goal is: {}".format(away_goals[i]))
+        time.sleep(0.5)
 
 welcome_message()
 open_csv_file()
 check_for_home_team()
 check_for_away_team()
-get_home_team_index()
-get_away_team_index()
-#get_home_team_goals()
+#get_home_team_index()
+#get_away_team_index()
+get_home_team_goals()
+get_away_team_goals()
