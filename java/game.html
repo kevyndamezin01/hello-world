@@ -1,0 +1,29 @@
+<html>
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+<script>
+    var canvas;
+    var canvasContext;
+    var ballX = 50;
+
+    window.onload = function() {
+        console.log("Hello World!");
+        canvas = document.getElementById('gameCanvas');
+        canvasContext = canvas.getContext('2d');
+        draw_everything();
+        draw_everything();
+    }
+
+    function draw_everything() {
+        ballX = ballX + 10
+        console.log("Called draw everything")
+        canvasContext.fillStyle = 'black';
+        canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+        canvasContext.fillStyle = 'red';
+        canvasContext.fillRect(100, 200, 50, 25);        
+        canvasContext.fillStyle = 'red';
+        canvasContext.fillRect(ballX, 260, 40, 40);      
+        console.log("finsihed drawing everythig")  
+    }
+</script>
+
+</html>
