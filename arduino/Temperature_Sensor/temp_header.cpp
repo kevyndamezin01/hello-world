@@ -24,27 +24,32 @@ boolean continuous_mode_enabled = false;
   #define CS 5
   #define LED 13
 }
+
  void start_TX()
 {
   // Drive CS low
   digitalWrite(CS, LOW);
 }
+
  void end_TX()
 {
   // Drive CS high
   digitalWrite(CS, HIGH);
 }
+
  void enable_1SPS_mode()
 {
   // Write 0x40 to register 0x01
   send_data(ENABLE_1SPS_MODE_DATA, CONFIGURATION_ADDR);
 }
+
  void enable_continuous_read_mode()
 {
   // Write 0x54 to register 0x01
   send_data(ENABLE_CONTINUOUS_READ_DATA, CONFIGURATION_ADDR);
   digitalWrite(MOSI, 0);
-}  
+}
+  
  void disable_continuous_read_mode()
 {
   // Write 0x50 to register 0x01
@@ -57,11 +62,13 @@ boolean continuous_mode_enabled = false;
   // Write 0x60 to register 0x01
   send_data(ENABLE_SHUTDOWN, CONFIGURATION_ADDR); 
 }
+
  void disable_shutdown_mode()
 {
   // Write 0xC0 to register 0x01
   send_data(DISABLE_SHUTDOWN, CONFIGURATION_ADDR);
 }
+
  void temp_initializer()
 {
   Serial.begin(9600);
@@ -88,6 +95,7 @@ boolean continuous_mode_enabled = false;
 //  enable_1SPS_mode();
 //  end_TX();
 }
+
  void process_uart_messages()
 {  
   if(rxComplete == true)
@@ -167,6 +175,7 @@ boolean continuous_mode_enabled = false;
     inputString = "";
   }
 }
+
  void serialEvent()
 {
   while( Serial.available())
@@ -182,6 +191,8 @@ boolean continuous_mode_enabled = false;
     }
   }
 }
+
+
  void write_byte(byte data)
 {
   // Send MSB first
@@ -203,6 +214,7 @@ boolean continuous_mode_enabled = false;
     digitalWrite(SCLK, LOW);
   }
 }
+
  void send_data(int data, int destination)
 {
   // Transmit the DATA to the DESTINATION
@@ -212,6 +224,7 @@ boolean continuous_mode_enabled = false;
   write_byte(data);
    digitalWrite(MOSI, HIGH);
 }
+
  void reset_temp_sensor()
 {
   digitalWrite(CS, LOW);
@@ -223,6 +236,7 @@ boolean continuous_mode_enabled = false;
     }
   digitalWrite(CS, HIGH);
 }
+
  byte read_byte()
 {
   byte rx_byte = 0x00;
@@ -247,6 +261,7 @@ boolean continuous_mode_enabled = false;
   }
   return rx_byte;
 }
+
  byte get_temp_temp()
 {
   // Retrieve the manufacture ID number 
@@ -258,6 +273,7 @@ boolean continuous_mode_enabled = false;
   rx_data = read_byte();
    Serial.println("STATUS REG: " + String(rx_data));
 }
+
  byte read_ID()
 {
   // Retrieve the manufacture ID number 
@@ -269,11 +285,13 @@ boolean continuous_mode_enabled = false;
   rx_data = read_byte();
    Serial.println(String(rx_data));
 }
+
  void configure_temp_sensor()
 {
   // Write 0x80 to register 0x01
   send_data(CONFIGURATION_DATA, CONFIGURATION_ADDR);
 }
+
  int get_temp_readings()
 {
   int temp = 0x0000;
@@ -294,6 +312,7 @@ boolean continuous_mode_enabled = false;
   }
   return temp;
 }
+
  void check_temp()
 {
   int temp = get_temp_readings();

@@ -9,17 +9,21 @@
         console.log("Hello World!");
         canvas = document.getElementById('gameCanvas');
         canvasContext = canvas.getContext('2d');
-        draw_everything();
-        draw_everything();
+        var frames_per_sec = 30;
+        setInterval(draw_everything, 1000/frames_per_sec);
+    }
+
+    function move_everything() {
+        ballX = ballX + 10
+        
     }
 
     function draw_everything() {
-        ballX = ballX + 10
         console.log("Called draw everything")
         canvasContext.fillStyle = 'black';
         canvasContext.fillRect(0, 0, canvas.width, canvas.height);
         canvasContext.fillStyle = 'red';
-        canvasContext.fillRect(100, 200, 50, 25);        
+        canvasContext.fillRect(0, 210, 10, 100);        
         canvasContext.fillStyle = 'red';
         canvasContext.fillRect(ballX, 260, 40, 40);      
         console.log("finsihed drawing everythig")  
